@@ -20,11 +20,13 @@ FROM ubuntu:14.04
 MAINTAINER IBM Swift Engineering at IBM Cloud
 LABEL Description="Linux Ubuntu 14.04 image with the Swift binaries."
 
-# Set environment variables for image
-ENV SWIFT_SNAPSHOT swift-3.0.2-RELEASE
-ENV SWIFT_SNAPSHOT_LOWERCASE swift-3.0.2-release
-ENV UBUNTU_VERSION ubuntu14.04
-ENV UBUNTU_VERSION_NO_DOTS ubuntu1404
+# Set arguments for image
+ARG SWIFT_SNAPSHOT=swift-3.0.2-RELEASE
+ARG SWIFT_SNAPSHOT_LOWERCASE=swift-3.0.2-release
+ARG UBUNTU_VERSION=ubuntu14.04
+ARG UBUNTU_VERSION_NO_DOTS=ubuntu1404
+
+# Set environment variables for working dir
 ENV HOME /root
 ENV WORK_DIR /root
 
@@ -65,6 +67,10 @@ RUn grep -q '^net.ipv4.ip_forward' /etc/sysctl.conf && sed -i 's/^net.ipv4.ip_fo
 RUN grep -q '^net.ipv4.icmp_echo_ignore_broadcasts' /etc/sysctl.conf && sed -i 's/^net.ipv4.icmp_echo_ignore_broadcasts.*/net.ipv4.icmp_echo_ignore_broadcasts = 1/' /etc/sysctl.conf || echo 'net.ipv4.icmp_echo_ignore_broadcasts = 1' >> /etc/sysctl.conf
 
 #RUN apt-get remove -y gcc-4.8 manpages vim-common vim-tiny gcc gcc-4.8 cpp cpp-4.8 perl 
-RUN apt-get remove -y gcc-4.8 cpp-4.8 libc6-dev binutils manpages-dev manpages wget pkg-config
+RUN apt-get remove -y gcc cpp sgml-base icu-devtools gcc-4.8 cpp-4.8 libc6-dev binutils manpages-dev manpages wget pkg-config
+
+# Now remove some of the base ubuntu packages
+#RUN apt-get remove -y perl perl-modules coreutils perl-base python3.4-minimal keyboard-configuration util-linux 
+RUN apt-get remove -y perl
 
 CMD /bin/bash

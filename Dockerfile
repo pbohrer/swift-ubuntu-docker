@@ -20,11 +20,13 @@ FROM ubuntu:14.04
 MAINTAINER IBM Swift Engineering at IBM Cloud
 LABEL Description="Linux Ubuntu 14.04 image with the Swift binaries."
 
-# Set environment variables for image
-ENV SWIFT_SNAPSHOT swift-3.0.2-RELEASE
-ENV SWIFT_SNAPSHOT_LOWERCASE swift-3.0.2-release
-ENV UBUNTU_VERSION ubuntu14.04
-ENV UBUNTU_VERSION_NO_DOTS ubuntu1404
+# Set arguments for image
+ARG SWIFT_SNAPSHOT=swift-3.0.2-RELEASE
+ARG SWIFT_SNAPSHOT_LOWERCASE=swift-3.0.2-release
+ARG UBUNTU_VERSION=ubuntu14.04
+ARG UBUNTU_VERSION_NO_DOTS=ubuntu1404
+
+# Set environment variables for working dir
 ENV HOME /root
 ENV WORK_DIR /root
 
